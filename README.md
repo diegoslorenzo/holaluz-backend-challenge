@@ -46,9 +46,13 @@ Applies suspicious readings detection logic, identifying values ​​outside es
 
 **📂 Application**
 
-ReaderService.php:
+**ReaderService.php:**
 
-Orchestrates the execution of readers, ensuring that data is analyzed correctly.
+Is the orchestrator of the data reading and analysis process. Its main function is to coordinate the execution of the different readers available in the infrastructure, process the data obtained and apply the suspicious reading detection logic defined in the domain.
+
+- It connects to the infrastructure readers through ReaderFactory, allowing the processing of different file formats without coupling to a single input type.
+- It applies the detection logic through SuspiciousReadingsDetector, a domain component that evaluates whether a reading deviates significantly from the historical median.
+- It returns the results in a structured format that allows its use in other layers of the system, such as report generation or console visualization.
 
 **📂 Infrastructure**
 
@@ -61,7 +65,7 @@ Orchestrates the execution of readers, ensuring that data is analyzed correctly.
   - Allows you to run suspicious read detection from the command line.
 
 
-## ➕ Additional scope
+### ➕ Additional scope
 
 **API HTTP: DetectSuspiciousReadingsController.php.**
 
@@ -70,7 +74,7 @@ Added the option to receive data via API (POST request) with a JSON body, showin
 
 **🏭 Factory for Additional Decoupling**
 
-Using the inversion principle and reducing coupling with Symfony, a reader factory (ReaderFactory.php) has been developed that allows readers to be instantiated without depending on Symfony's services.yaml. This functionality is currently commented* out and not used in the default version, but it demonstrates how the code could be further decoupled if needed.
+Using the inversion principle and reducing coupling with Symfony, a reader factory (ReaderFactory.php) has been developed that allows readers to be instantiated without depending on Symfony's services.yaml. This functionality is currently commented out* and not used in the default version, but it demonstrates how the code could be further decoupled if needed.
 
 **Uncommenting it would require adjusting some tests*
 
@@ -96,12 +100,17 @@ Using the inversion principle and reducing coupling with Symfony, a reader facto
 3. Run from CLI
 
 ```docker exec -it suspicious-reading-detector php bin/console app:detect-suspicious-readings readings/2016-readings.csv```
+
 ```docker exec -it suspicious-reading-detector php bin/console app:detect-suspicious-readings readings/2016-readings.xml```
+
 ```docker exec -it suspicious-reading-detector php bin/console app:detect-suspicious-readings readings/2016-readings.txt```
+
+```docker exec -it suspicious-reading-detector php bin/console app:detect-suspicious-readings readings/2016-readings.json```
 
 4. Send an API request
 
-``` curl -X POST http://localhost:8000/detect-suspicious-readings \
+``` 
+curl -X POST http://localhost:8000/detect-suspicious-readings \
      -H "Content-Type: application/json" \
      -d '{
           "readings": [
