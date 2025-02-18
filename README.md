@@ -166,6 +166,6 @@ or for natural format:
 
 - ✅ Add a proper request validation
 - ✅ Improve exception handling
+- ✅ Handle large amount of data,
 - ✅ Support for database.
-- ✅ Advanced logging and monitoring.
 - ✅ ...
