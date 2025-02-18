@@ -91,13 +91,21 @@ Using the inversion principle and reducing coupling with Symfony, a reader facto
 
 ```git clone git@github.com:diegoslorenzo/holaluz-backend-challenge.git```
 
+or:
+
+```git clone https://github.com/diegoslorenzo/holaluz-backend-challenge.git```
+
+or download it from https://github.com/diegoslorenzo/holaluz-backend-challenge
+
+2. Go to the project
+
 ```cd holaluz-backend-challenge```
 
-2. Build and Deploy Docker Containers
+3. Build and Deploy Docker Containers
 
 ```docker-compose up --build -d```
 
-3. Run from CLI
+4. Run from CLI
 
 ```docker exec -it suspicious-reading-detector php bin/console app:detect-suspicious-readings readings/2016-readings.csv```
 
@@ -107,7 +115,7 @@ Using the inversion principle and reducing coupling with Symfony, a reader facto
 
 ```docker exec -it suspicious-reading-detector php bin/console app:detect-suspicious-readings readings/2016-readings.json```
 
-4. Send an API request
+5. Send an API request
 
 ``` 
 curl -X POST http://localhost:8000/detect-suspicious-readings \
