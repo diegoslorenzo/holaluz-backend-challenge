@@ -22,3 +22,32 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # Resgisters all classes in src/Service automatically
+    App\Application\:
+        resource: '../src/Application'
+        exclude: '../src/Application/{Kernel.php}'
+
+
+    # ReaderService gets a collection of readers injected by tag
+    App\Application\ReaderService:
+        arguments:
+            $readers: !tagged_iterator { tag: 'app.reader' }
+    # Registers the adapters as services with the tag "app.reader"
+    App\Infrastructure\Reader\CSVReader:
+        tags: ['app.reader']
+    App\Infrastructure\Reader\XMLReader:
+        tags: ['app.reader']
+    App\Infrastructure\Reader\TXTReader: # New adapter without modifying ReaderService
+        tags: ['app.reader']
+    App\Infrastructure\Reader\JSONReader: # New adapter without modifying ReaderService
+        tags: ['app.reader']
+    
+    # # Factory: Alternative approach using a factory to retrieve readers
+    # # ReaderService gets a collection of readers injected by factory
+    # App\Application\ReaderService:
+    #     arguments:
+    #         $readers: '@App\Infrastructure\Reader\Factory\ReaderFactory'
+    # App\Infrastructure\Reader\Factory\ReaderFactory:
+    #     factory: ['App\Infrastructure\Reader\Factory\ReaderFactory', 'getReaders']
+    # # end Factory

@@ -1,0 +1,4 @@
+detect-suspicious-readings_post:
+  path: /detect-suspicious-readings
+  controller: App\Infrastructure\Controller\DetectSuspiciousReadingsController
+  methods:  [POST]
